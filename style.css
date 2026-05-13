@@ -1,1 +1,235 @@
+/* 1. Переменные и сброс настроек */
+:root {
+    --bg-color: #0c0c14;
+    --card-bg: #161625;
+    --primary: #8854d0; /* Фиолетовый в стиле Quizizz */
+    --primary-light: #a55eea;
+    --text-main: #ffffff;
+    --text-muted: #8e8e9e;
+    --correct: #20bf6b;
+    --wrong: #eb3b5a;
+    --accent: #f7b731;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* 2. Управление экранами */
+.screen {
+    display: none;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: var(--transition);
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    min-height: 100vh;
+}
+
+.screen.active {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 3. Главный экран (Home) */
+.hero {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    background: linear-gradient(45deg, var(--primary), var(--primary-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.stats-overview {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 40px;
+}
+
+.stat-card {
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: 16px;
+    text-align: center;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+.mini-progress-bar {
+    height: 8px;
+    background: #2d2d3a;
+    border-radius: 4px;
+    margin-top: 10px;
+    overflow: hidden;
+}
+
+#stat-progress-fill {
+    height: 100%;
+    background: var(--primary);
+    transition: width 0.5s ease;
+}
+
+/* 4. Кнопки */
+.btn {
+    display: block;
+    width: 100%;
+    padding: 16px;
+    border-radius: 12px;
+    border: none;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition);
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.btn-primary { background: var(--primary); color: white; box-shadow: 0 4px 15px rgba(136, 84, 208, 0.4); }
+.btn-primary:hover { background: var(--primary-light); transform: translateY(-2px); }
+
+.btn-secondary { background: #2d2d3a; color: white; }
+.btn-outline { background: transparent; border: 2px solid var(--primary); color: var(--primary); }
+
+.btn-reset {
+    background: transparent;
+    color: var(--text-muted);
+    border: none;
+    display: block;
+    margin: 20px auto;
+    font-size: 0.9rem;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+/* 5. Интерфейс теста */
+.quiz-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    padding: 10px 0;
+}
+
+.timer {
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: var(--accent);
+    background: rgba(247, 183, 49, 0.1);
+    padding: 5px 15px;
+    border-radius: 20px;
+}
+
+.question-card {
+    background: var(--card-bg);
+    padding: 25px;
+    border-radius: 20px;
+    margin-bottom: 25px;
+    position: relative;
+}
+
+.question-text {
+    font-size: 1.3rem;
+    font-weight: 500;
+    margin-top: 15px;
+}
+
+/* Варианты ответов */
+.options-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-bottom: 30px;
+}
+
+.option-btn {
+    background: #252535;
+    border: 2px solid transparent;
+    padding: 18px;
+    border-radius: 14px;
+    color: white;
+    text-align: left;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.option-btn:hover { background: #2d2d45; border-color: var(--primary); }
+.option-btn.selected { border-color: var(--primary); background: rgba(136, 84, 208, 0.1); }
+.option-btn.correct { border-color: var(--correct); background: rgba(32, 191, 107, 0.1); color: var(--correct); }
+.option-btn.wrong { border-color: var(--wrong); background: rgba(235, 59, 90, 0.1); color: var(--wrong); }
+
+/* Сетка вопросов 1-100 */
+.questions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+    gap: 8px;
+    margin-top: 20px;
+}
+
+.grid-dot {
+    aspect-ratio: 1;
+    background: #2d2d3a;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.grid-dot.active { border: 2px solid var(--primary); }
+.grid-dot.answered { background: var(--primary); }
+.grid-dot.correct { background: var(--correct); }
+.grid-dot.wrong { background: var(--wrong); }
+
+/* 6. Результаты */
+.result-circle {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    border: 10px solid var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 40px auto;
+    font-size: 3rem;
+    font-weight: 800;
+}
+
+/* 7. Адаптивность для телефона */
+@media (max-width: 768px) {
+    .quiz-layout { display: flex; flex-direction: column; }
+    .quiz-sidebar { order: 2; margin-top: 30px; }
+    .hero h1 { font-size: 1.8rem; }
+    .question-text { font-size: 1.1rem; }
+}
+
+/* Помогаторы */
+.hidden { display: none; }
+.hint-box {
+    background: rgba(247, 183, 49, 0.1);
+    color: var(--accent);
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    border-left: 4px solid var(--accent);
+  }
