@@ -1,1 +1,106 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Trainer — Твой успех на экзамене</title>
+    
+    <link rel="stylesheet" href="style.css">
+    
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+    <div id="app-container">
+        <section id="home-screen" class="screen active">
+            <div class="hero">
+                <h1>Тренажёр по математике</h1>
+                <p>2-й семестр | Подготовка к тестам</p>
+            </div>
+            
+            <div class="stats-overview">
+                <div class="stat-card">
+                    <span class="label">Решено</span>
+                    <span id="stat-solved-count" class="value">0 / 100</span>
+                </div>
+                <div class="stat-card">
+                    <span class="label">Прогресс</span>
+                    <div class="mini-progress-bar">
+                        <div id="stat-progress-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="main-actions">
+                <button class="btn btn-primary" onclick="app.startQuiz()">Начать тест</button>
+                <button class="btn btn-secondary" onclick="app.showAllAnswers()">Посмотреть ответы</button>
+            </div>
+            
+            <button class="btn-reset" onclick="app.resetData()">Сбросить прогресс</button>
+        </section>
+
+        <section id="quiz-screen" class="screen">
+            <header class="quiz-header">
+                <button class="btn-back" onclick="app.goToHome()">⬅ Выход</button>
+                <div id="timer" class="timer">00:00</div>
+                <div class="progress-top">
+                    Вопрос <span id="current-q-num">1</span>/100
+                </div>
+            </header>
+
+            <main class="quiz-layout">
+                <div class="question-area">
+                    <div class="question-card">
+                        <div class="question-header">
+                            <button class="btn-hint" onclick="app.toggleHint()">💡 Подсказка</button>
+                        </div>
+                        <div id="hint-box" class="hint-box hidden"></div>
+                        <div id="question-text" class="question-text">
+                            Загрузка вопроса...
+                        </div>
+                    </div>
+
+                    <div id="options-container" class="options-grid">
+                        </div>
+
+                    <div class="nav-controls">
+                        <button class="btn btn-outline" onclick="app.prevQuestion()">Назад</button>
+                        <button class="btn btn-outline" onclick="app.nextQuestion()">Вперёд</button>
+                    </div>
+                </div>
+
+                <aside class="quiz-sidebar">
+                    <h3>Навигация</h3>
+                    <div id="questions-grid" class="questions-grid">
+                        </div>
+                </aside>
+            </main>
+        </section>
+
+        <section id="results-screen" class="screen">
+            <h2>Результат теста</h2>
+            <div class="result-circle">
+                <span id="result-percent">0%</span>
+            </div>
+            <p id="result-text">Вы ответили правильно на 0 из 100 вопросов</p>
+            <div class="result-actions">
+                <button class="btn btn-primary" onclick="app.retryMistakes()">Работа над ошибками</button>
+                <button class="btn btn-secondary" onclick="app.goToHome()">На главную</button>
+            </div>
+        </section>
+
+        <section id="answers-screen" class="screen">
+            <header class="sticky-header">
+                <button class="btn-back" onclick="app.goToHome()">⬅ Назад</button>
+                <h2>Список правильных ответов</h2>
+            </header>
+            <div id="all-answers-list" class="answers-container">
+                </div>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
 
